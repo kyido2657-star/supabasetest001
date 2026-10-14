@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Todo App</title>
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 50px auto; padding: 20px; }
+        input { padding: 8px; width: 70%; }
+        button { padding: 8px 15px; }
+        ul { padding-left: 0; }
+        li { list-style: none; padding: 5px 0; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+    <h2>My Todo App (Supabase Basic)</h2>
+    
+    <div>
+        <input type="text" id="taskInput" placeholder="လုပ်စရာရှိတာ ရေးပါ...">
+        <button id="addBtn">ထည့်မည်</button>
+    </div>
+
+    <ul id="todoList"></ul>
+
+    <script>
+        // 1. Supabase ချိတ်ဆက်ခြင်း
+        const SUPABASE_URL = 'https://poufobyplocskhneeitl.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_JcRX4S5KsmLxOPzglYgPrA_VcbA6ff6';
+
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 2. Data များကို Database ကနေ ယူပြခြင်း
+        async function fetchTodos() {
+            const { data, error } = await _supabase.from('todos').select('*');
+            
+            if (error) {
+                alert('Fetch Error: ' + error.message);
+                return;
+            }
+
+            const todoList = document.getElementById('todoList');
+            todoList.innerHTML = '';
+
+            data.forEach(todo => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span style="${todo.is_completed ? 'text-decoration: line-through;' : ''}">${todo.task}</span>
+                    <button onclick="deleteTodo(${todo.id})">ဖျက်မည်</button>
+                `;
+                todoList.appendChild(li);
+            });
+        }
+
+        // 3. Database ထဲသို့ Data အသစ်ထည့်ခြင်း
+        async function addTodo() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+
+            if (!taskText) {
+                alert('ကျေးဇူးပြု၍ စာသားထည့်ပါ။');
+                return;
+            }
+
+            const { error } = await _supabase
+                .from('todos')
+                .insert([{ task: taskText, is_completed: false }]);
+
+            if (error) {
+                alert('Insert Error: ' + error.message);
+            } else {
+                taskInput.value = '';
+                fetchTodos(); 
+            }
+        }
+
+        // 4. Data ဖျက်ခြင်း
+        async function deleteTodo(id) {
+            const { error } = await _supabase
+                .from('todos')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('Delete Error: ' + error.message);
+            } else {
+                fetchTodos();
+            }
+        }
+
+        // Button ကို Event Listener နဲ့ ချိတ်ဆက်ခြင်း (ဖုန်းတွေမှာ ပိုသေချာပါတယ်)
+        document.getElementById('addBtn').addEventListener('click', addTodo);
+
+        // Page စပွင့်တာနဲ့ Todo တွေ လှမ်းဆွဲထုတ်မယ်
+        fetchTodos();
+    </script>
+</body>
+</html>
