@@ -140,6 +140,7 @@
           <div id="pfMenu" class="hidden absolute top-14 right-3 z-20 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 text-left fade">
             <button type="button" onclick="closePfMenu(); copyProfileLink(viewingProfileName)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-red-50 text-left"><i class="fa-solid fa-link w-4 text-slate-500"></i>Link ကူးမည်</button>
             <button type="button" onclick="closePfMenu(); openQr(viewingProfileName)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-red-50 text-left"><i class="fa-solid fa-qrcode w-4 text-slate-500"></i>QR Code</button>
+            <button id="pfMenuDelete" type="button" onclick="closePfMenu(); deleteMyAccount()" class="hidden w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-red-600 hover:bg-red-50 text-left"><i class="fa-solid fa-user-xmark w-4"></i>Account ဖျက်မည်</button>
             <button id="pfMenuReport" type="button" onclick="closePfMenu(); openReport(viewingProfileName)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-red-600 hover:bg-red-50 text-left"><i class="fa-solid fa-flag w-4"></i>Report</button>
           </div>
         </div>
@@ -420,6 +421,18 @@
     </div>
   </div>
 
+  <div id="deleteAccModal" class="fixed inset-0 bg-slate-900/60 z-[60] hidden items-center justify-center p-6 fade">
+    <div class="bg-white rounded-3xl p-5 w-full max-w-sm space-y-3 shadow-xl">
+      <h3 class="font-bold text-sm text-red-600"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Account အပြီးဖျက်မည်</h3>
+      <p class="text-xs text-slate-600">သင့် Account နှင့် တင်ထားသော ပစ္စည်းအားလုံး ပျက်သွားမည်ဖြစ်ပြီး ပြန်ယူ၍မရပါ။ ဆက်လုပ်ရန် အောက်တွင် <b class="text-red-600">DELETE</b> ဟု စာရိုက်ထည့်ပါ။</p>
+      <input type="text" id="deleteAccInput" class="field" placeholder="DELETE" autocomplete="off" autocapitalize="characters" oninput="$('deleteAccYes').disabled = this.value.trim() !== 'DELETE'">
+      <div class="flex gap-2">
+        <button onclick="closeDeleteAcc()" class="flex-1 bg-slate-200 text-slate-700 py-2.5 rounded-xl font-bold text-xs">မဖျက်တော့ပါ</button>
+        <button id="deleteAccYes" onclick="confirmDeleteAcc()" disabled class="flex-1 bg-red-600 text-white py-2.5 rounded-xl font-bold text-xs">ဖျက်မည်</button>
+      </div>
+    </div>
+  </div>
+
   <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 z-[60] hidden items-center justify-center p-6 fade">
     <div class="sheet bg-white rounded-2xl p-5 w-full max-w-xs text-center space-y-3">
       <div class="w-12 h-12 mx-auto rounded-full bg-red-100 text-red-500 flex items-center justify-center"><i class="fa-solid fa-trash"></i></div>
@@ -514,7 +527,10 @@ const maxFor = role => role === 'shop' ? MAX_SHOP : MAX_AGENT;
 let imgMode = 'file';
 const REGIONS = {
   'ရန်ကုန်တိုင်း': ['ရန်ကုန်မြို့', 'ဒဂုံမြို့', 'မရမ်းကုန်းမြို့', 'အင်းစိန်မြို့', 'သင်္ဃန်းကျွန်းမြို့', 'လှိုင်သာယာမြို့', 'သာကေတမြို့', 'ထန်လျင်မြို့', 'ဒလမြို့'],
-  'မွန်ပြည်နယ်': ['မော်လမြိုင်မြို့', 'ဘီးလင်းမြို့', 'ချောင်းဆုံမြို့', 'သထုံမြို့', 'ရေးမြို့', 'မုဒုံမြို့', 'ကျိုက်ထိုမြို့', 'သံဖြူဇရပ်မြို့', 'ပေါင်မြို့', 'ကျိုက်မရောမြို့']
+  'မန္တလေးတိုင်း': ['မန္တလေးမြို့', 'ပြင်ဦးလွင်မြို့', 'မိတ္ထီလာမြို့', 'ကျောက်ဆည်မြို့', 'ပျော်ဘွယ်မြို့', 'ကျောက်ပန်းတောင်းမြို့', 'မြင်းခြံမြို့', 'မတ္တရာမြို့', 'ငါန်းဇွန်မြို့'],
+  'ပဲခူးတိုင်း': ['ပဲခူးမြို့', 'တောင်ငူမြို့', 'ပြည်မြို့', 'သာယာဝတီမြို့', 'ကျောက်တံခါးမြို့', 'ဖြူမြို့', 'နတ်တလင်းမြို့', 'လေးပွဲကွင်းမြို့', 'ရွှေကျင်မြို့'],
+  'မွန်ပြည်နယ်': ['မော်လမြိုင်မြို့', 'ဘီးလင်းမြို့', 'ချောင်းဆုံမြို့', 'သထုံမြို့', 'ရေးမြို့', 'မုဒုံမြို့', 'ကျိုက်ထိုမြို့', 'သံဖြူဇရပ်မြို့', 'ပေါင်မြို့', 'ကျိုက်မရောမြို့'],
+  'ကရင်ပြည်နယ်': ['ဘားအံမြို့', 'မြဝတီမြို့']
 };
 const TOWNS = Object.values(REGIONS).flat();
 const townRegion = {};
@@ -731,20 +747,19 @@ function setupRealtime() {
 }
 
 async function checkAndCreateNotification(newItem) {
-  const followers = cachedFollows.filter(f => f.following_name === newItem.name);
-  for (const f of followers) {
-    if (f.follower_name !== newItem.name) {
-      await supabaseClient.from('notifications').insert([{
-        username: f.follower_name,
-        actor_name: newItem.name,
-        item_id: newItem.id,
-        item_name: newItem.item,
-        item_img: newItem.img,
-        timestamp: Date.now(),
-        is_read: false
-      }]);
-    }
-  }
+  // တင်သူ၏ browser တစ်ခုတည်းကသာ noti ဖန်တီးမည် (တခြားသူ online များက ထပ်မဖန်တီးရန်)
+  if (!currentUser || currentUser.name !== newItem.name) return;
+  const { data: fl } = await supabaseClient.from('follows').select('follower_name').eq('following_name', newItem.name);
+  const rows = (fl || []).filter(f => f.follower_name !== newItem.name).map(f => ({
+    username: f.follower_name,
+    actor_name: newItem.name,
+    item_id: newItem.id,
+    item_name: newItem.item,
+    item_img: newItem.img,
+    timestamp: Date.now(),
+    is_read: false
+  }));
+  if (rows.length) await supabaseClient.from('notifications').insert(rows);
 }
 
 async function checkUserSession() {
@@ -980,12 +995,32 @@ async function renderNotifications() {
   }
 }
 
+function focusCommentFromNotif(item, actor, isReply) {
+  const list = cachedComments.filter(c => String(c.item_id) === String(item.id));
+  let target;
+  if (isReply) target = list.filter(c => c.username === currentUser.name && c.reply_by === actor).sort((a, b) => (b.reply_timestamp || 0) - (a.reply_timestamp || 0))[0];
+  else target = list.filter(c => c.username === actor).sort((a, b) => b.timestamp - a.timestamp)[0];
+  setTimeout(() => {
+    const sec = $('commentList');
+    if (!sec) return;
+    sec.closest('.border-t').scrollIntoView({ block: 'center' });
+    const el = target && sec.querySelector(`[data-cid="${CSS.escape(String(target.id))}"]`);
+    if (el) {
+      el.scrollIntoView({ block: 'nearest' });
+      el.classList.add('ring-2', 'ring-amber-400', 'bg-amber-50');
+      setTimeout(() => el.classList.remove('ring-2', 'ring-amber-400', 'bg-amber-50'), 2500);
+    }
+  }, 120);
+}
+
 async function clickNotification(notifId, itemId, actorName) {
   const key = currentUser.role === 'shop' ? 'agentListings' : 'shopRequests';
   const item = cachedItems[key].find(i => String(i.id) === String(itemId)) || cachedItems.agentListings.find(i => String(i.id) === String(itemId)) || cachedItems.shopRequests.find(i => String(i.id) === String(itemId));
   if (item) {
     const k = item.key;
     openDetailModal(item, k);
+    const nt = String((cachedNotifications.find(n => String(n.id) === String(notifId)) || {}).item_name || '');
+    if (nt.startsWith(CM) || nt.startsWith(RM)) focusCommentFromNotif(item, actorName, nt.startsWith(RM));
   } else {
     visitProfile(actorName);
   }
@@ -1192,7 +1227,7 @@ function renderComments(item) {
   }
 
   listEl.innerHTML = visibleComments.length ? visibleComments.map(c => `
-    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs space-y-1.5">
+    <div data-cid="${esc(c.id)}" class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs space-y-1.5">
       <div class="flex items-center justify-between">
         <span class="font-bold text-slate-800">${esc(c.username)}</span>
         <span class="text-[9px] text-slate-400">${new Date(c.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -1557,6 +1592,7 @@ async function giveStar(target, dir) {
 function renderProfileExtras(name, p, own) {
   $('pfStarTotal').innerHTML = `<i class="fa-solid fa-star mr-1"></i>${starCount(name)} Star`;
   $('pfMenuReport').classList.toggle('hidden', !!own);
+  $('pfMenuDelete').classList.toggle('hidden', !own); $('pfMenuDelete').classList.toggle('flex', !!own);
   const btns = $('pfStarBtns');
   if (currentUser && !own) {
     btns.classList.remove('hidden'); btns.classList.add('flex');
@@ -1567,7 +1603,6 @@ function renderProfileExtras(name, p, own) {
   const banned = cachedBans.some(b => b.name === name);
   let h = '';
   if (banned) h += '<span class="text-[11px] font-bold bg-red-600 text-white px-3 py-1.5 rounded-full"><i class="fa-solid fa-ban mr-1"></i>BANNED</span>';
-  if (own) h += `<button onclick="deleteMyAccount()" class="text-[11px] font-bold bg-white border border-red-300 text-red-600 px-3.5 py-1.5 rounded-full active:scale-95"><i class="fa-solid fa-user-xmark mr-1"></i>ကျွန်ုပ်၏ Account ဖျက်မည်</button>`;
   if (isAdmin() && !own) {
     h += banned
       ? `<button onclick="adminUnban(viewingProfileName)" class="text-[11px] font-bold bg-emerald-600 text-white px-3.5 py-1.5 rounded-full active:scale-95"><i class="fa-solid fa-unlock mr-1"></i>Unban</button>`
@@ -1624,23 +1659,26 @@ async function purgeAccount(name) {
 
 function deleteMyAccount() {
   if (!currentUser) return;
-  askConfirm('သင့် Account နှင့် တင်ထားသော ပစ္စည်းအားလုံးကို အပြီးဖျက်မလား?', () => {
-    setTimeout(() => askConfirm('နောက်ဆုံးအကြိမ် အတည်ပြုပါ - ပြန်ယူ၍ မရတော့ပါ', async () => {
-      const name = currentUser.name;
-      try {
-        await purgeAccount(name);
-      } catch (err) {
-        console.error(err); toast('Account ဖျက်၍မရပါ: ' + (err.message || ''), 'error'); return;
-      }
-      await supabaseClient.auth.signOut();
-      currentUser = null; viewingProfileName = null;
-      delete cachedProfiles[name];
-      updateAuthUI(); adjustFeedForRole();
-      await fetchAllData();
-      switchView('feed');
-      toast('Account ဖျက်ပြီးပါပြီ', 'info');
-    }), 80);
-  });
+  $('deleteAccInput').value = ''; $('deleteAccYes').disabled = true; show('deleteAccModal');
+  setTimeout(() => $('deleteAccInput').focus(), 50);
+}
+function closeDeleteAcc() { hide('deleteAccModal'); }
+async function confirmDeleteAcc() {
+  if (!currentUser || $('deleteAccInput').value.trim() !== 'DELETE') return;
+  closeDeleteAcc();
+  const name = currentUser.name;
+  try {
+    await purgeAccount(name);
+  } catch (err) {
+    console.error(err); toast('Account ဖျက်၍မရပါ: ' + (err.message || ''), 'error'); return;
+  }
+  await supabaseClient.auth.signOut();
+  currentUser = null; viewingProfileName = null;
+  delete cachedProfiles[name];
+  updateAuthUI(); adjustFeedForRole();
+  await fetchAllData();
+  switchView('feed');
+  toast('Account ဖျက်ပြီးပါပြီ', 'info');
 }
 
 async function adminBan(name) {
