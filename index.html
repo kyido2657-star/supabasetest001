@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#b91c1c">
 <title>DS Net</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- Supabase JS SDK -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
@@ -67,7 +67,7 @@
 
 <div class="app mx-auto min-h-screen bg-red-50/40 shadow-2xl relative flex flex-col">
 
-  <!-- HEADER (Fixed အနေအထားဖြင့် အမြဲရှိနေစေရန်) -->
+  
   <header class="hero text-white fixed top-0 left-0 right-0 max-w-md mx-auto z-40 px-4 pt-3 pb-4 rounded-b-3xl shadow-lg">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2.5">
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <!-- Search + Town -->
+    
     <div id="filterBar" class="mt-3 space-y-2">
       <div class="relative">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -99,14 +99,14 @@
     </div>
   </header>
 
-  <!-- MAIN (Fixed Header ကြောင့် အောက်သို့ နေရာလွတ် ချန်ပေးထားသည်) -->
+  
   <main class="px-3 pt-36 pb-28 flex-grow space-y-3">
 
-    <!-- FEED VIEW -->
+    
     <section id="feedView" class="space-y-3">
       <div class="flex items-center justify-between px-1">
         <div>
-          <h2 id="feedTitle" class="font-bold text-sm text-slate-800"><i class="fa-solid fa-boxes-stacked text-red-600 mr-1"></i>Feed</h2>
+          <h2 id="feedTitle" class="font-bold text-sm text-slate-800"><i class="fa-solid fa-boxes-stacked text-red-600 mr-1"></i>Demands</h2>
           <p id="feedSubtitle" class="text-[10px] text-slate-500">ပစ္စည်းများ</p>
         </div>
         <div class="flex items-center gap-2"><span id="feedCount" class="text-[10px] font-bold bg-red-100 text-red-700 px-2.5 py-1 rounded-full">0</span><button id="refreshFeedBtn" onclick="refreshFeed(this)" class="refresh-btn w-8 h-8 rounded-full hero text-white shadow flex items-center justify-center active:scale-90 transition" title="Refresh" aria-label="Refresh"><i class="fa-solid fa-rotate-right text-xs"></i></button></div>
@@ -115,22 +115,22 @@
       <div id="feedItemList" class="grid grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- NOTIFICATION VIEW -->
+    
     <section id="notificationView" class="space-y-3 hidden">
       <div class="flex items-center justify-between px-1">
         <div>
-          <h2 class="font-bold text-sm text-slate-800"><i class="fa-solid fa-bell text-amber-500 mr-1"></i>Notification Feed</h2>
+          <h2 class="font-bold text-sm text-slate-800"><i class="fa-solid fa-bell text-amber-500 mr-1"></i>Notification</h2>
           <p class="text-[10px] text-slate-500">Follow လုပ်ထားသော Demand/Supplier များ၏ လှုပ်ရှားမှုများ</p>
         </div>
         <button onclick="renderNotifications()" class="w-8 h-8 rounded-full bg-white text-slate-600 shadow flex items-center justify-center active:scale-90 transition" title="Refresh"><i class="fa-solid fa-rotate-right text-xs"></i></button>
       </div>
-      <!-- Notification တွင် ကြော်ငြာနေရာ ထည့်သွင်းခြင်း -->
+      
       <div id="notifFilterChips" class="flex gap-1.5 overflow-x-auto chip"></div>
       <div id="adTopNotif"></div>
       <div id="notificationList" class="space-y-2"></div>
     </section>
 
-    <!-- PROFILE VIEW -->
+    
     <section id="profileView" class="space-y-4 hidden">
       <div class="bg-white rounded-3xl shadow-sm border border-red-100 overflow-hidden">
         <div class="hero h-32 relative">
@@ -179,7 +179,7 @@
         </div>
       </div>
 
-      <!-- Upload -->
+      
       <div id="uploadSection" class="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 hidden">
         <div class="flex items-center justify-between mb-3">
           <h3 id="formTitle" class="font-bold text-xs text-slate-800"></h3>
@@ -206,12 +206,12 @@
       </div>
 
       <div>
-        <h4 class="font-bold text-xs text-slate-700 mb-2 px-1"><i class="fa-solid fa-images text-red-500 mr-1"></i>Wall ပေါ်ရှိ ပစ္စည်းများ</h4>
+        <h4 class="font-bold text-xs text-slate-700 mb-2 px-1"><i class="fa-solid fa-images text-red-500 mr-1"></i>ပစ္စည်းများ</h4>
         <div id="userWallList" class="grid grid-cols-2 gap-3"></div>
       </div>
     </section>
 
-    <!-- FOLLOWING LIST VIEW (Sidebar မှ ဝင်ရန်) -->
+    
     <section id="followingListView" class="space-y-4 hidden">
       <div class="flex items-center justify-between px-1">
         <div>
@@ -220,7 +220,7 @@
         </div>
         <button onclick="switchView('feed')" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full font-bold">Back</button>
       </div>
-      <!-- Following section တွင် ကြော်ငြာနေရာ ထည့်သွင်းခြင်း -->
+      
       <div id="adTopFollowing"></div>
       <div class="flex gap-2">
         <div class="relative flex-1">
@@ -232,7 +232,7 @@
       <div id="sidebarFollowingList" class="space-y-2"></div>
     </section>
 
-    <!-- ADMIN VIEW -->
+    
     <section id="adminView" class="space-y-4 hidden">
       <div class="flex items-center justify-between px-1">
         <div>
@@ -246,7 +246,7 @@
       <div id="adminBanList" class="space-y-2"></div>
     </section>
 
-    <!-- SETTINGS VIEW -->
+    
     <section id="settingsView" class="space-y-4 hidden">
       <div class="flex items-center justify-between px-1">
         <div>
@@ -261,7 +261,7 @@
       </div>
     </section>
 
-    <!-- ABOUT VIEW -->
+    
     <section id="aboutView" class="space-y-4 hidden">
       <div class="bg-white rounded-3xl p-5 shadow-sm border border-red-100 space-y-4">
         <div class="text-center space-y-1">
@@ -288,7 +288,7 @@
     </section>
   </main>
 
-  <!-- BOTTOM NAV -->
+  
   <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur border-t border-slate-200 flex justify-around px-2 pt-2 safe-b z-30">
     <button onclick="switchView('feed')" id="navFeedBtn" class="nav-btn flex flex-col items-center text-slate-400 text-[10px] font-semibold flex-1">
       <span class="pill w-12 h-7 rounded-full flex items-center justify-center transition"><i class="fa-solid fa-boxes-stacked text-sm"></i></span><span id="navFeedLabel">Demands</span>
@@ -298,11 +298,11 @@
       <span id="notifBadge" class="absolute top-1 right-6 w-2 h-2 rounded-full bg-red-600 hidden"></span>
     </button>
     <button onclick="goToMyProfile()" id="navProfileBtn" class="nav-btn flex flex-col items-center text-slate-400 text-[10px] font-semibold flex-1">
-      <span class="pill w-12 h-7 rounded-full flex items-center justify-center transition"><i class="fa-solid fa-user text-sm"></i></span>My Profile
+      <span class="pill w-12 h-7 rounded-full flex items-center justify-center transition"><i class="fa-solid fa-user text-sm"></i></span>Profile
     </button>
   </nav>
 
-  <!-- SIDEBAR MENU -->
+  
   <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleSidebar(false)"></div>
   <aside id="sidebarDrawer" class="fixed top-0 bottom-0 left-0 w-72 bg-white z-[60] shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col">
     <div class="hero p-5 text-white flex items-center justify-between">
@@ -316,7 +316,7 @@
       <button onclick="toggleSidebar(false)" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="p-4 space-y-2 flex-1 overflow-y-auto">
-      <!-- (လိုက်နာမှုများ) နှင့် (အကြောင်းအရာ) စာသားများကို ဖယ်ရှားပြီး သက်ဆိုင်ရာခေါင်းစဉ်များ ထည့်ထားသည် -->
+      
       <button onclick="toggleSidebar(false); openFollowingList()" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-red-50 text-slate-700 font-semibold text-xs transition"><i class="fa-solid fa-user-group text-red-600 w-5"></i> Following</button>
       <button onclick="toggleSidebar(false); openScan()" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-red-50 text-slate-700 font-semibold text-xs transition"><i class="fa-solid fa-qrcode text-slate-800 w-5"></i> QR Scan (Account ရှာရန်)</button>
       <button id="sidebarAdminBtn" onclick="toggleSidebar(false); openAdmin()" class="hidden w-full items-center gap-3 px-4 py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-semibold text-xs transition"><i class="fa-solid fa-shield-halved w-5"></i> Admin (Report များ)</button>
@@ -329,7 +329,7 @@
     </div>
   </aside>
 
-  <!-- MODALS -->
+  
   <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center fade">
     <div class="sheet bg-white w-full max-w-md rounded-t-3xl p-5 space-y-4">
       <div class="flex items-center justify-between">
@@ -347,7 +347,7 @@
         <button type="button" data-role="agent" class="role-tab rounded-2xl border-2 p-3 text-center transition"><i class="fa-solid fa-truck-field text-lg"></i><div class="text-sm font-bold mt-1">Supplier</div><div class="text-[11px] text-slate-600">ပစ္စည်း ရောင်းသူ/ထောက်ပံ့သူ</div></button>
       </div>
       <button onclick="signInWithGoogle()" class="w-full bg-white border-2 border-slate-200 text-slate-700 py-3 rounded-xl font-bold text-xs shadow-sm flex items-center justify-center gap-2 active:scale-[.98]">
-        <i class="fa-brands fa-google text-red-500 text-base"></i> Google ဖြင့် ဆက်သွားမည်
+        <i class="fa-brands fa-google text-red-500 text-base"></i> Login
       </button>
     </div>
   </div>
@@ -378,7 +378,7 @@
         <div class="text-right -mt-1"><button onclick="openReport(window._modalUser)" class="text-[11px] text-slate-500 font-semibold underline"><i class="fa-solid fa-flag mr-1"></i>Report</button></div>
         <div id="modalActionArea"></div>
 
-        <!-- COMMENT SECTION -->
+        
         <div class="border-t border-slate-100 pt-3 space-y-3">
           <h5 class="font-bold text-xs text-slate-800"><i class="fa-solid fa-comments text-red-600 mr-1"></i>Comments</h5>
           <div id="commentList" class="space-y-2 max-h-48 overflow-y-auto"></div>
@@ -527,9 +527,9 @@ const maxFor = role => role === 'shop' ? MAX_SHOP : MAX_AGENT;
 let imgMode = 'file';
 const REGIONS = {
   'ရန်ကုန်တိုင်း': ['ရန်ကုန်မြို့', 'ဒဂုံမြို့', 'မရမ်းကုန်းမြို့', 'အင်းစိန်မြို့', 'သင်္ဃန်းကျွန်းမြို့', 'လှိုင်သာယာမြို့', 'သာကေတမြို့', 'ထန်လျင်မြို့', 'ဒလမြို့'],
-  'မန္တလေးတိုင်း': ['မန္တလေးမြို့', 'ပြင်ဦးလွင်မြို့', 'မိတ္ထီလာမြို့', 'ကျောက်ဆည်မြို့', 'ပျော်ဘွယ်မြို့', 'ကျောက်ပန်းတောင်းမြို့', 'မြင်းခြံမြို့', 'မတ္တရာမြို့', 'ငါန်းဇွန်မြို့'],
-  'ပဲခူးတိုင်း': ['ပဲခူးမြို့', 'တောင်ငူမြို့', 'ပြည်မြို့', 'သာယာဝတီမြို့', 'ကျောက်တံခါးမြို့', 'ဖြူမြို့', 'နတ်တလင်းမြို့', 'လေးပွဲကွင်းမြို့', 'ရွှေကျင်မြို့'],
   'မွန်ပြည်နယ်': ['မော်လမြိုင်မြို့', 'ဘီးလင်းမြို့', 'ချောင်းဆုံမြို့', 'သထုံမြို့', 'ရေးမြို့', 'မုဒုံမြို့', 'ကျိုက်ထိုမြို့', 'သံဖြူဇရပ်မြို့', 'ပေါင်မြို့', 'ကျိုက်မရောမြို့'],
+  'မန္တလေးတိုင်း': ['မန္တလေးမြို့', 'ပြင်ဦးလွင်မြို့', 'မိတ္ထီလာမြို့', 'ကျောက်ဆည်မြို့', 'ပျော်ဘွယ်မြို့', 'ကျောက်ပန်းတောင်းမြို့', 'မြင်းခြံမြို့', 'မတ္တရာမြို့', 'ငါန်းဇွန်မြို့'],
+  'ပဲခူးတိုင်း': ['ပဲခူးမြို့', 'တောင်ငူမြို့', 'ပြည်မြို့', 'သာယာဝတီမြို့', 'ကျောက်တံခါးမြို့', 'ဖြူးမြို့', 'နတ်တလင်းမြို့', 'လေးပွဲကွင်းမြို့', 'ရွှေကျင်မြို့'],
   'ကရင်ပြည်နယ်': ['ဘားအံမြို့', 'မြဝတီမြို့']
 };
 const TOWNS = Object.values(REGIONS).flat();
@@ -840,10 +840,10 @@ function adjustFeedForRole() {
     $('feedSubtitle').textContent = 'Login ဝင်ပါ';
     $('navFeedLabel').textContent = 'Demands';
   } else if (currentUser.role === 'shop') {
-    $('feedTitle').innerHTML = `<i class="fa-solid fa-store text-emerald-600 mr-1"></i>Suppliers Feed (Supplier ပစ္စည်းအသစ်များ)`;
+    $('feedTitle').innerHTML = `<i class="fa-solid fa-store text-emerald-600 mr-1"></i>Suppliers (Supplier ပစ္စည်းအသစ်များ)`;
     $('feedSubtitle').textContent = 'New Arrivals';$('navFeedLabel').textContent = 'Suppliers';
   } else {
-    $('feedTitle').innerHTML = `<i class="fa-solid fa-clipboard-list text-red-600 mr-1"></i>Demand Feed (Demand များ၏ တောင်းခံမှု)`;
+    $('feedTitle').innerHTML = `<i class="fa-solid fa-clipboard-list text-red-600 mr-1"></i>Demands (Demand များ၏ တောင်းခံမှု)`;
     $('feedSubtitle').textContent = 'Demands';$('navFeedLabel').textContent = 'Demands';
   }
 }
