@@ -18,6 +18,8 @@
   html { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
   body { font-family: 'Noto Sans Myanmar', system-ui, sans-serif; background:#f5e9e9; line-height:1.6; overflow-x: hidden; }
   .app { max-width: 448px; }
+  .sticky-bar { position:sticky; top:var(--hdr,144px); z-index:30; background:#f9eded; margin-left:-.75rem; margin-right:-.75rem; padding:.5rem 1rem .6rem; }
+  body.theme-green .sticky-bar { background:#e8f2ec; }
   .hero { background: linear-gradient(135deg, #ef4444 0%, #dc2626 30%, #b91c1c 60%, #7f1d1d 100%); }
   .card { transition: transform .18s ease, box-shadow .18s ease; }
   .card:active { transform: scale(.97); }
@@ -55,7 +57,7 @@
   #commentList p { font-size:.88rem; color:#1e293b; }
   #commentList .font-bold { color:#0f172a; }
   button:disabled { opacity:.4; }
-  /* Excel Green theme */
+  /* Green theme */
   body.theme-green { --brand:#217346; --brand2:#144a2e; --ok:#217346; background:#e6f0ea; }
   body.theme-green .hero { background: linear-gradient(135deg, #21a366 0%, #217346 35%, #185c37 70%, #0e3a22 100%); }
   body.theme-green .thumb-grad { background: linear-gradient(to top, rgba(10,45,26,.85) 0%, rgba(15,23,42,0) 55%); }
@@ -104,7 +106,7 @@
 
     
     <section id="feedView" class="space-y-3">
-      <div class="flex items-center justify-between px-1">
+      <div class="sticky-bar flex items-center justify-between">
         <div>
           <h2 id="feedTitle" class="font-bold text-sm text-slate-800"><i class="fa-solid fa-boxes-stacked text-red-600 mr-1"></i>Demands</h2>
           <p id="feedSubtitle" class="text-[10px] text-slate-500">ပစ္စည်းများ</p>
@@ -117,6 +119,7 @@
 
     
     <section id="notificationView" class="space-y-3 hidden">
+      <div class="sticky-bar space-y-3">
       <div class="flex items-center justify-between px-1">
         <div>
           <h2 class="font-bold text-sm text-slate-800"><i class="fa-solid fa-bell text-amber-500 mr-1"></i>Notification</h2>
@@ -126,6 +129,7 @@
       </div>
       
       <div id="notifFilterChips" class="flex gap-1.5 overflow-x-auto chip"></div>
+      </div>
       <div id="adTopNotif"></div>
       <div id="notificationList" class="space-y-2"></div>
     </section>
@@ -221,14 +225,14 @@
         <button onclick="switchView('feed')" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full font-bold">Back</button>
       </div>
       
-      <div id="adTopFollowing"></div>
-      <div class="flex gap-2">
+      <div class="sticky-bar flex gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
           <input type="text" id="followSearchInput" oninput="renderFollowingList()" placeholder="Following ထဲမှ အမည်/မြို့ ရှာရန်..." class="field" style="padding-left:2rem">
         </div>
         <button onclick="openScan()" class="hero text-white w-11 rounded-xl shadow active:scale-95 shrink-0" title="QR Scan" aria-label="QR Scan"><i class="fa-solid fa-qrcode"></i></button>
       </div>
+      <div id="adTopFollowing"></div>
       <div id="sidebarFollowingList" class="space-y-2"></div>
     </section>
 
@@ -1952,7 +1956,7 @@ function renderSettings() {
 /* Header မြင့်ချိန်နှင့် အညီ အပေါ်နေရာကို အလိုအလျောက် ညှိခြင်း */
 function syncHeaderPad() {
   const h = document.querySelector('header.hero'), m = $('mainArea');
-  if (h && m) m.style.paddingTop = (h.offsetHeight + 14) + 'px';
+  if (h && m) { m.style.paddingTop = (h.offsetHeight + 14) + 'px'; document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px'); }
 }
 if (window.ResizeObserver) new ResizeObserver(syncHeaderPad).observe(document.querySelector('header.hero'));
 window.addEventListener('resize', syncHeaderPad);
