@@ -217,6 +217,7 @@
 
     
     <section id="followingListView" class="space-y-4 hidden">
+      <div class="sticky-bar space-y-3">
       <div class="flex items-center justify-between px-1">
         <div>
           <h2 class="font-bold text-sm text-slate-800"><i class="fa-solid fa-user-group text-red-600 mr-1"></i>Following Accounts</h2>
@@ -225,12 +226,13 @@
         <button onclick="switchView('feed')" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-full font-bold">Back</button>
       </div>
       
-      <div class="sticky-bar flex gap-2">
+      <div class="flex gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
           <input type="text" id="followSearchInput" oninput="renderFollowingList()" placeholder="Following ထဲမှ အမည်/မြို့ ရှာရန်..." class="field" style="padding-left:2rem">
         </div>
         <button onclick="openScan()" class="hero text-white w-11 rounded-xl shadow active:scale-95 shrink-0" title="QR Scan" aria-label="QR Scan"><i class="fa-solid fa-qrcode"></i></button>
+      </div>
       </div>
       <div id="adTopFollowing"></div>
       <div id="sidebarFollowingList" class="space-y-2"></div>
