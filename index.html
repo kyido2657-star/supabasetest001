@@ -100,7 +100,7 @@
   </header>
 
   
-  <main class="px-3 pt-36 pb-28 flex-grow space-y-3">
+  <main id="mainArea" class="px-3 pt-36 pb-28 flex-grow space-y-3">
 
     
     <section id="feedView" class="space-y-3">
@@ -1936,11 +1936,11 @@ function initTheme() {
   let t = 'red'; try { t = localStorage.getItem('dsTheme') || 'red'; } catch (e) {}
   applyTheme(t);
 }
-function setTheme(t) { applyTheme(t); renderSettings(); updateAuthUI(); toast(t === 'green' ? 'Excel Green theme သုံးထားပါသည်' : 'Original Red theme သုံးထားပါသည်', 'info'); }
+function setTheme(t) { applyTheme(t); renderSettings(); updateAuthUI(); toast(t === 'green' ? 'Green theme သုံးထားပါသည်' : 'Original Red theme သုံးထားပါသည်', 'info'); }
 function renderSettings() {
   const opts = [
     ['red', 'Original Red', 'linear-gradient(135deg,#ef4444 0%,#dc2626 30%,#b91c1c 60%,#7f1d1d 100%)'],
-    ['green', 'Excel Green', 'linear-gradient(135deg,#21a366 0%,#217346 35%,#185c37 70%,#0e3a22 100%)']
+    ['green', 'Green', 'linear-gradient(135deg,#21a366 0%,#217346 35%,#185c37 70%,#0e3a22 100%)']
   ];
   $('themeOptions').innerHTML = opts.map(([k, l, g]) => `
     <button type="button" onclick="setTheme('${k}')" class="rounded-2xl border-2 p-2.5 text-center transition active:scale-95 ${currentTheme === k ? 'border-red-600 bg-red-50' : 'border-slate-200 bg-white'}">
@@ -1948,6 +1948,16 @@ function renderSettings() {
       <div class="text-xs font-bold mt-2 text-slate-800">${l}</div>
     </button>`).join('');
 }
+
+/* Header မြင့်ချိန်နှင့် အညီ အပေါ်နေရာကို အလိုအလျောက် ညှိခြင်း */
+function syncHeaderPad() {
+  const h = document.querySelector('header.hero'), m = $('mainArea');
+  if (h && m) m.style.paddingTop = (h.offsetHeight + 14) + 'px';
+}
+if (window.ResizeObserver) new ResizeObserver(syncHeaderPad).observe(document.querySelector('header.hero'));
+window.addEventListener('resize', syncHeaderPad);
+window.addEventListener('load', syncHeaderPad);
+syncHeaderPad();
 
 /* ================= INIT ================= */
 initTheme();
